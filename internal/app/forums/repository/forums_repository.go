@@ -4,6 +4,7 @@ import (
 	"BD-v2/internal/app/forums/models"
 	models2 "BD-v2/internal/app/threads/models"
 	models3 "BD-v2/internal/app/users/models"
+	"database/sql"
 	"fmt"
 	"github.com/go-openapi/strfmt"
 	"github.com/jmoiron/sqlx"
