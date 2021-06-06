@@ -60,14 +60,18 @@ func (rep *ForumRepository) GetTreads(limit int, forum, since string, desc bool)
 		return nil, err
 	}
 	defer rows.Close()
+	nullSlug := sql.NullString{}
 
 	for rows.Next() {
 		t := &time.Time{}
 		thread := &models2.Thread{}
 		err = rows.Scan(&thread.ID, &thread.Title,
 			&thread.Author, &thread.Forum, &thread.Message, &thread.Votes,
-			&thread.Slug, t)
+			&nullSlug, t)
 		thread.Created = strfmt.DateTime(t.UTC()).String()
+		if nullSlug.Valid {
+			thread.Slug = nullSlug.String
+		}
 		threads = append(threads, thread)
 	}
 	return threads, err
